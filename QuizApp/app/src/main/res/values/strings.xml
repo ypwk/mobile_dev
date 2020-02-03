@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Quiz App</string>
+    <string name="hard_coded_string">What a big yes!!</string>
+    <string name="name_hint">what you name?</string>
+    <string name="age_hint">what you age?</string>
+    <string name="click_button_prompt">soobmit</string>
+</resources>
