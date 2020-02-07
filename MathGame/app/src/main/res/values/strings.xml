@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MathGame</string>
+    <string name="direction_text">Type the answer to the math question!</string>
+    <string name="title_text">Math Game!</string>
+    <string name="game_prompt">What is 1 + 1?</string>
+    <string name="timer_text">Time Left: 00:00</string>
+    <string name="start_button_prompt">Start the Game!</string>
+    <string name="game_input_prompt">Type Here!</string>
+    <string name="score_text">Your score is: 0</string>
+</resources>
