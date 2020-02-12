@@ -7,4 +7,10 @@
     <string name="start_button_prompt">Start the Game!</string>
     <string name="game_input_prompt">Type Here!</string>
     <string name="score_text">Your score is: 0</string>
+    <string-array name="operators_array">
+        <item>+</item>
+        <item>-</item>
+        <item>*</item>
+        <item>/</item>
+    </string-array>
 </resources>

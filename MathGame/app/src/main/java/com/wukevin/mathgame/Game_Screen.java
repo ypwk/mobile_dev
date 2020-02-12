@@ -1,8 +1,11 @@
 package com.wukevin.mathgame;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Editable;
@@ -10,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -22,7 +26,7 @@ public class Game_Screen extends AppCompatActivity {
     TextView ScoreText;
     TextView GamePrompt;
     EditText GameInput;
-
+    View BackgroundView;
     String answer;
     int currentScore;
     boolean gameOver;
@@ -35,7 +39,8 @@ public class Game_Screen extends AppCompatActivity {
         ScoreText = findViewById(R.id.ScoreText);
         GamePrompt = findViewById(R.id.GamePrompt);
         GameInput = findViewById(R.id.GameInput);
-
+        BackgroundView = findViewById(R.id.BackgroundView);
+        BackgroundView.setTranslationZ(-2);
         GameInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -50,6 +55,10 @@ public class Game_Screen extends AppCompatActivity {
                         incrementScore();
                         makeNewProblem();
                         GameInput.setText("");
+                        BackgroundView.setBackgroundColor(Color.GREEN);
+                    }
+                    else{
+                        BackgroundView.setBackgroundColor(Color.RED);
                     }
                 }
             }
@@ -93,6 +102,18 @@ public class Game_Screen extends AppCompatActivity {
                 gameOver = true;
             }
         }.start();
+        new CountDownTimer(30000, 10) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                /*ColorDrawable drawable = (ColorDrawable) BackgroundView.getBackground();
+                int currentColor = drawable.getColor();*/
+
+            }
+            @Override
+            public void onFinish() {
+            }
+        }.start();
+
         gameOver = false;
         makeNewProblem();
     }
@@ -104,23 +125,24 @@ public class Game_Screen extends AppCompatActivity {
         int tempAns = -42;
         switch (operator) {
             case 0:
-                displayText = "What is " + firstNum + " + " + secondNum + "?";
+                displayText = "What is " + firstNum + " " + getResources().getStringArray(R.array.operators_array)[operator] + " " + secondNum + "?";
                 tempAns = firstNum + secondNum;
                 break;
 
             case 1:
-                displayText = "What is |" + firstNum + " - " + secondNum + "|?";
+                displayText = "What is |" + firstNum + " " + getResources().getStringArray(R.array.operators_array)[operator] + " " + secondNum + "|?";
                 tempAns = Math.abs(firstNum - secondNum);
                 break;
 
             case 2:
-                displayText = "What is " + firstNum + " * " + secondNum + "?";
+                displayText = "What is " + firstNum +  " " + getResources().getStringArray(R.array.operators_array)[operator] + " " + secondNum + "?";
                 tempAns = firstNum * secondNum;
                 break;
         }
         answer = tempAns + "";
         System.out.println("First: " + firstNum + ", Second: " + secondNum + ", Answer: " + answer);
         GamePrompt.setText(displayText);
+        BackgroundView.setBackgroundColor(Color.WHITE);
     }
     public void incrementScore(){
         currentScore++;
