@@ -57,7 +57,7 @@ public class Game_Screen extends AppCompatActivity {
                         GameInput.setText("");
                         BackgroundView.setBackgroundColor(Color.GREEN);
                     }
-                    else{
+                    else if(s.toString().length() >= answer.length()){
                         BackgroundView.setBackgroundColor(Color.RED);
                     }
                 }
@@ -102,12 +102,29 @@ public class Game_Screen extends AppCompatActivity {
                 gameOver = true;
             }
         }.start();
-        new CountDownTimer(30000, 10) {
+        new CountDownTimer(33000, 10) {
             @Override
             public void onTick(long millisUntilFinished) {
-                /*ColorDrawable drawable = (ColorDrawable) BackgroundView.getBackground();
-                int currentColor = drawable.getColor();*/
-
+                ColorDrawable drawable = (ColorDrawable) BackgroundView.getBackground();
+                String hexColor = String.format("#%06X", (0xFFFFFF & drawable.getColor()));
+                int percent = 1;
+                int initialRComp = Integer.parseInt(hexColor.substring(1,3),16);
+                int initialGComp = Integer.parseInt(hexColor.substring(3,5),16);
+                int initialBComp = Integer.parseInt(hexColor.substring(5,7),16);
+                initialRComp = initialRComp * (100 - percent) / 100;
+                initialGComp = initialGComp * (100 - percent) / 100;
+                initialBComp = initialBComp * (100 - percent) / 100;
+                initialRComp = (initialRComp<255)?initialRComp:255;
+                initialGComp = (initialGComp<255)?initialGComp:255;
+                initialBComp = (initialBComp<255)?initialBComp:255;
+                String rStringComp = Integer.toHexString(initialRComp) + "";
+                String gStringComp = Integer.toHexString(initialGComp) + "";
+                String bStringComp = Integer.toHexString(initialBComp) + "";
+                String RR = ((rStringComp.length()==1)?"0"+rStringComp:rStringComp);
+                String GG = ((gStringComp.length()==1)?"0"+gStringComp:gStringComp);
+                String BB = ((bStringComp.length()==1)?"0"+bStringComp:bStringComp);
+                hexColor = "#"+RR+GG+BB;
+                BackgroundView.setBackgroundColor(Color.parseColor(hexColor));
             }
             @Override
             public void onFinish() {
