@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lab04_ViewDemonstrations</string>
+    <string name="view_label_01">View set in each corner</string>
+    <string name="view_label_02">View centered in the top, and two View as shown in the middle</string>
+    <string name="view_label_03">background color, and a Guidline that is used to align a TextView, Button and two Views as shown</string>
+    <string name="view_label_04">overlapping Views as shown</string>
+    <string name="view_label_05">ScrollView that contains a TextView. The TextView contains very long text (you must scroll to see all of it)</string>
+    <string name="view_label_06">Guideline and a Horizontal ScrollView. This ScrollView contains many Buttons (you have to scroll to see them all).</string>
+    <string name="view_label_07">Guideline, TextView and nested layout that contains a Button and ScrollView with many checkboxes (as shown).</string>
+</resources>

@@ -1,9 +1,11 @@
 package com.wukevin.mathgame;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -18,6 +20,8 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.Map;
+import java.util.Set;
 import java.util.Timer;
 
 public class Game_Screen extends AppCompatActivity {
