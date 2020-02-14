@@ -7,4 +7,5 @@
     <string name="view_label_05">ScrollView that contains a TextView. The TextView contains very long text (you must scroll to see all of it)</string>
     <string name="view_label_06">Guideline and a Horizontal ScrollView. This ScrollView contains many Buttons (you have to scroll to see them all).</string>
     <string name="view_label_07">Guideline, TextView and nested layout that contains a Button and ScrollView with many checkboxes (as shown).</string>
+    <string name="go">Go!</string>
 </resources>
