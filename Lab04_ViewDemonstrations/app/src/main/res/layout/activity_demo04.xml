@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DemoActivity04">
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/image01"
+        android:src="@drawable/krabby"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/image04"
+        android:src="@drawable/krabby"
+        app:layout_constraintBottom_toBottomOf="@id/image02"
+        app:layout_constraintRight_toRightOf="@id/image02"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"/>
+    <ImageView
+        android:id="@+id/image02"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/krabby"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/image03"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/krabby"
+        app:layout_constraintTop_toTopOf="@id/image02"
+        app:layout_constraintLeft_toLeftOf="@id/image02"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="40dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
