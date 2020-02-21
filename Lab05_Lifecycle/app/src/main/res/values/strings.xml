@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Lab05_Lifecycle</string>
+    <string name="ondestroy">onDestroy(): 0</string>
+    <string name="onrestart">onRestart(): 0</string>
+    <string name="onstop">onStop(): 0</string>
+    <string name="onpause">onPause(): 0</string>
+    <string name="onresume">onResume(): 0</string>
+    <string name="onstart">onStart(): 0</string>
+    <string name="oncreate">onCreate(): 0</string>
+</resources>
