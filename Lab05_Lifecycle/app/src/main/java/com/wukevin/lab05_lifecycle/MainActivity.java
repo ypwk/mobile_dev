@@ -93,6 +93,15 @@ public class MainActivity extends AppCompatActivity {
                 OnRestart.setText("onRestart(): 0");
                 OnPause.setText("onPause(): 0");
                 OnStop.setText("onStop(): 0");
+
+                prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
+                prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
+                prefEditor.putString("onresume", OnResume.getText().toString().split(" ")[1]);
+                prefEditor.putString("onpause", OnPause.getText().toString().split(" ")[1]);
+                prefEditor.putString("onstop", OnStop.getText().toString().split(" ")[1]);
+                prefEditor.putString("onrestart", OnRestart.getText().toString().split(" ")[1]);
+                prefEditor.putString("ondestroy", OnDestroy.getText().toString().split(" ")[1]);
+                prefEditor.commit();
             }
         });
     }
@@ -121,6 +130,14 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onPause(): " + newNumber + "";
         OnPause.setText(tempText);
+        prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
+        prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
+        prefEditor.putString("onresume", OnResume.getText().toString().split(" ")[1]);
+        prefEditor.putString("onpause", OnPause.getText().toString().split(" ")[1]);
+        prefEditor.putString("onstop", OnStop.getText().toString().split(" ")[1]);
+        prefEditor.putString("onrestart", OnRestart.getText().toString().split(" ")[1]);
+        prefEditor.putString("ondestroy", OnDestroy.getText().toString().split(" ")[1]);
+        prefEditor.commit();
         super.onPause();
     }
 
@@ -130,6 +147,14 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onStop(): " + newNumber + "";
         OnStop.setText(tempText);
+        prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
+        prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
+        prefEditor.putString("onresume", OnResume.getText().toString().split(" ")[1]);
+        prefEditor.putString("onpause", OnPause.getText().toString().split(" ")[1]);
+        prefEditor.putString("onstop", OnStop.getText().toString().split(" ")[1]);
+        prefEditor.putString("onrestart", OnRestart.getText().toString().split(" ")[1]);
+        prefEditor.putString("ondestroy", OnDestroy.getText().toString().split(" ")[1]);
+        prefEditor.commit();
         super.onStop();
     }
 
