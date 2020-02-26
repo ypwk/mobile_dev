@@ -19,6 +19,14 @@ public class MainActivity extends AppCompatActivity {
 
     Button ResetButton;
 
+    TextView OnCreateTemp;
+    TextView OnStartTemp;
+    TextView OnResumeTemp;
+    TextView OnPauseTemp;
+    TextView OnStopTemp;
+    TextView OnRestartTemp;
+    TextView OnDestroyTemp;
+
     SharedPreferences prefObj;
     SharedPreferences.Editor prefEditor;
     @Override
@@ -35,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
         OnStop = findViewById(R.id.onstop);
         OnRestart = findViewById(R.id.onrestart);
         OnDestroy = findViewById(R.id.ondestroy);
+        OnCreateTemp = findViewById(R.id.oncreatetemp);
+        OnStartTemp = findViewById(R.id.onstarttemp);
+        OnResumeTemp = findViewById(R.id.onresumetemp);
+        OnPauseTemp = findViewById(R.id.onpausetemp);
+        OnStopTemp = findViewById(R.id.onstoptemp);
+        OnRestartTemp = findViewById(R.id.onrestarttemp);
+        OnDestroyTemp = findViewById(R.id.ondestroytemp);
+
         ResetButton = findViewById(R.id.ResetButton);
         String temp = prefObj.getString("onstart", null);
         if(temp != null)
@@ -82,6 +98,10 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onCreate(): " + newNumber + "";
         OnCreate.setText(tempText);
+        yesString = OnCreateTemp.getText().toString().split(" ")[1];
+        newNumber = Integer.parseInt(yesString) + 1;
+        tempText = "onCreate(): " + newNumber + "";
+        OnCreateTemp.setText(tempText);
 
         ResetButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +113,13 @@ public class MainActivity extends AppCompatActivity {
                 OnRestart.setText("onRestart(): 0");
                 OnPause.setText("onPause(): 0");
                 OnStop.setText("onStop(): 0");
+                OnStartTemp.setText("onStart(): 0");
+                OnCreateTemp.setText("onCreate(): 0");
+                OnDestroyTemp.setText("onDestroy(): 0");
+                OnResumeTemp.setText("onResume(): 0");
+                OnRestartTemp.setText("onRestart(): 0");
+                OnPauseTemp.setText("onPause(): 0");
+                OnStopTemp.setText("onStop(): 0");
 
                 prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
                 prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
@@ -112,6 +139,10 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onStart(): " + newNumber + "";
         OnStart.setText(tempText);
+        yesString = OnStartTemp.getText().toString().split(" ")[1];
+        newNumber = Integer.parseInt(yesString) + 1;
+        tempText = "onStart(): " + newNumber + "";
+        OnStartTemp.setText(tempText);
         super.onStart();
     }
 
@@ -121,6 +152,10 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onResume(): " + newNumber + "";
         OnResume.setText(tempText);
+        yesString = OnResumeTemp.getText().toString().split(" ")[1];
+        newNumber = Integer.parseInt(yesString) + 1;
+        tempText = "onResume(): " + newNumber + "";
+        OnResumeTemp.setText(tempText);
         super.onResume();
     }
 
@@ -130,6 +165,10 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onPause(): " + newNumber + "";
         OnPause.setText(tempText);
+        yesString = OnPauseTemp.getText().toString().split(" ")[1];
+        newNumber = Integer.parseInt(yesString) + 1;
+        tempText = "onPause(): " + newNumber + "";
+        OnPauseTemp.setText(tempText);
         prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
         prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
         prefEditor.putString("onresume", OnResume.getText().toString().split(" ")[1]);
@@ -147,6 +186,10 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onStop(): " + newNumber + "";
         OnStop.setText(tempText);
+        yesString = OnStopTemp.getText().toString().split(" ")[1];
+        newNumber = Integer.parseInt(yesString) + 1;
+        tempText = "onStop(): " + newNumber + "";
+        OnStopTemp.setText(tempText);
         prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
         prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
         prefEditor.putString("onresume", OnResume.getText().toString().split(" ")[1]);
@@ -164,6 +207,10 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onRestart(): " + newNumber + "";
         OnRestart.setText(tempText);
+        yesString = OnRestartTemp.getText().toString().split(" ")[1];
+        newNumber = Integer.parseInt(yesString) + 1;
+        tempText = "onRestart(): " + newNumber + "";
+        OnRestartTemp.setText(tempText);
         super.onRestart();
     }
 
@@ -173,6 +220,10 @@ public class MainActivity extends AppCompatActivity {
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onDestroy() " + newNumber + "";
         OnDestroy.setText(tempText);
+        yesString = OnDestroyTemp.getText().toString().split(" ")[1];
+        newNumber = Integer.parseInt(yesString) + 1;
+        tempText = "onDestroy() " + newNumber + "";
+        OnDestroyTemp.setText(tempText);
         prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
         prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
         prefEditor.putString("onresume", OnResume.getText().toString().split(" ")[1]);
