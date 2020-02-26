@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
@@ -14,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     TextView OnStop;
     TextView OnRestart;
     TextView OnDestroy;
+
+    Button ResetButton;
 
     SharedPreferences prefObj;
     SharedPreferences.Editor prefEditor;
@@ -31,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         OnStop = findViewById(R.id.onstop);
         OnRestart = findViewById(R.id.onrestart);
         OnDestroy = findViewById(R.id.ondestroy);
-
+        ResetButton = findViewById(R.id.ResetButton);
         String temp = prefObj.getString("onstart", null);
         if(temp != null)
         {
@@ -74,15 +78,28 @@ public class MainActivity extends AppCompatActivity {
             String tempText = "onDestroy(): " + temp;
             OnDestroy.setText(tempText);
         }
-        String yesString = OnCreate.getText().subSequence(OnCreate.getText().length() - 1, OnCreate.getText().length()).toString();
+        String yesString = OnCreate.getText().toString().split(" ")[1];
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onCreate(): " + newNumber + "";
         OnCreate.setText(tempText);
+
+        ResetButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                OnStart.setText("onStart(): 0");
+                OnCreate.setText("onCreate(): 0");
+                OnDestroy.setText("onDestroy(): 0");
+                OnResume.setText("onResume(): 0");
+                OnRestart.setText("onRestart(): 0");
+                OnPause.setText("onPause(): 0");
+                OnStop.setText("onStop(): 0");
+            }
+        });
     }
 
     @Override
     protected void onStart() {
-        String yesString = OnStart.getText().subSequence(OnStart.getText().length() - 1, OnStart.getText().length()).toString();
+        String yesString = OnStart.getText().toString().split(" ")[1];
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onStart(): " + newNumber + "";
         OnStart.setText(tempText);
@@ -91,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        String yesString = OnResume.getText().subSequence(OnResume.getText().length() - 1, OnResume.getText().length()).toString();
+        String yesString = OnResume.getText().toString().split(" ")[1];
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onResume(): " + newNumber + "";
         OnResume.setText(tempText);
@@ -100,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        String yesString = OnPause.getText().subSequence(OnPause.getText().length() - 1, OnPause.getText().length()).toString();
+        String yesString = OnPause.getText().toString().split(" ")[1];
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onPause(): " + newNumber + "";
         OnPause.setText(tempText);
@@ -109,7 +126,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        String yesString = OnStop.getText().subSequence(OnStop.getText().length() - 1, OnStop.getText().length()).toString();
+        String yesString = OnStop.getText().toString().split(" ")[1];
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onStop(): " + newNumber + "";
         OnStop.setText(tempText);
@@ -118,26 +135,26 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
-        String yesString = OnRestart.getText().subSequence(OnRestart.getText().length() - 1, OnRestart.getText().length()).toString();
+        String yesString = OnRestart.getText().toString().split(" ")[1];
         int newNumber = Integer.parseInt(yesString) + 1;
-        String tempText = "onRestart() " + newNumber + "";
+        String tempText = "onRestart(): " + newNumber + "";
         OnRestart.setText(tempText);
         super.onRestart();
     }
 
     @Override
     protected void onDestroy() {
-        String yesString = OnDestroy.getText().subSequence(OnDestroy.getText().length() - 1, OnDestroy.getText().length()).toString();
+        String yesString = OnDestroy.getText().toString().split(" ")[1];
         int newNumber = Integer.parseInt(yesString) + 1;
         String tempText = "onDestroy() " + newNumber + "";
         OnDestroy.setText(tempText);
-        prefEditor.putString("onstart", OnStart.getText().subSequence(OnStart.getText().length() - 1, OnStart.getText().length()).toString());
-        prefEditor.putString("oncreate", OnCreate.getText().subSequence(OnCreate.getText().length() - 1, OnCreate.getText().length()).toString());
-        prefEditor.putString("onresume", OnResume.getText().subSequence(OnResume.getText().length() - 1, OnResume.getText().length()).toString());
-        prefEditor.putString("onpause", OnPause.getText().subSequence(OnPause.getText().length() - 1, OnPause.getText().length()).toString());
-        prefEditor.putString("onstop", OnStop.getText().subSequence(OnStop.getText().length() - 1, OnStop.getText().length()).toString());
-        prefEditor.putString("onrestart", OnRestart.getText().subSequence(OnRestart.getText().length() - 1, OnRestart.getText().length()).toString());
-        prefEditor.putString("ondestroy", OnDestroy.getText().subSequence(OnDestroy.getText().length() - 1, OnDestroy.getText().length()).toString());
+        prefEditor.putString("onstart", OnStart.getText().toString().split(" ")[1]);
+        prefEditor.putString("oncreate", OnCreate.getText().toString().split(" ")[1]);
+        prefEditor.putString("onresume", OnResume.getText().toString().split(" ")[1]);
+        prefEditor.putString("onpause", OnPause.getText().toString().split(" ")[1]);
+        prefEditor.putString("onstop", OnStop.getText().toString().split(" ")[1]);
+        prefEditor.putString("onrestart", OnRestart.getText().toString().split(" ")[1]);
+        prefEditor.putString("ondestroy", OnDestroy.getText().toString().split(" ")[1]);
         prefEditor.commit();
         super.onDestroy();
     }

@@ -7,4 +7,5 @@
     <string name="onresume">onResume(): 0</string>
     <string name="onstart">onStart(): 0</string>
     <string name="oncreate">onCreate(): 0</string>
+    <string name="reset">RESET</string>
 </resources>
