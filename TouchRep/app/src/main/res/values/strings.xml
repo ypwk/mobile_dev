@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TouchRep</string>
+    <string name="tab_text_1">Launch</string>
+    <string name="tab_text_2">Stored Replays</string>
+    <string name="click_the_button_to_launch_overlay">Click the button to launch overlay.</string>
+    <string name="launch_overlay">Launch Overlay</string>
+</resources>

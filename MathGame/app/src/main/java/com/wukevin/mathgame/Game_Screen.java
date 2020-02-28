@@ -53,7 +53,7 @@ public class Game_Screen extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(gameOver == false) {
+                if(!gameOver) {
                     System.out.println("Text Changed! " + s.toString());
                     if (s.toString().equals(answer)) {
                         incrementScore();
