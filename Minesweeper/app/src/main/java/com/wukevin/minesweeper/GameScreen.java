@@ -210,6 +210,7 @@ public class GameScreen extends AppCompatActivity {
                 }
             }
         });
+        FlagText.setText("Flags Left: " + flagsLeft);
     }
 
     public void GameOver()
