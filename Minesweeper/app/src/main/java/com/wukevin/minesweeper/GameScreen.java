@@ -4,11 +4,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.os.health.SystemHealthManager;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
@@ -17,7 +19,7 @@ import android.widget.TextView;
 
 public class GameScreen extends AppCompatActivity {
     TableLayout GameTable;
-    TextView TimerText;
+    Chronometer TimerText;
     TextView FlagText;
     Button ResetButton;
     Button ClickStateButton;
@@ -26,6 +28,7 @@ public class GameScreen extends AppCompatActivity {
     int height = 8;
     int numberOfFlags = 10;
     int flagsLeft = 10;
+    long elapsedTime = 0;
 
     boolean ClickState = false; //false is dig, true is flag
     boolean clicked = false;
@@ -43,6 +46,26 @@ public class GameScreen extends AppCompatActivity {
         ResetButton = findViewById(R.id.ResetButton);
         ClickStateButton = findViewById(R.id.change_state_button);
 
+        TimerText.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener() {
+            @Override
+            public void onChronometerTick(Chronometer chronometer) {
+                long minutes = ((elapsedTime - TimerText.getBase())/1000) / 60;
+                long seconds = ((elapsedTime - TimerText.getBase())/1000) % 60;
+                elapsedTime = elapsedTime + 1000;
+                String minuteText = "" + minutes;
+                if(minutes < 10)
+                {
+                    minuteText = "0" + minutes;
+                }
+
+                String secondText = "" + seconds;
+                if(seconds < 10)
+                {
+                    secondText= "0" + seconds;
+                }
+                TimerText.setText(minuteText + ":" + secondText);
+            }
+        });
         NewGame();
         gameButtons = new ImageButton[width][height];
         for(int a = 0; a < width; a++)
@@ -65,10 +88,6 @@ public class GameScreen extends AppCompatActivity {
                 gameButtons[a][b].setPadding(4,4,4,4);
                 gameButtons[a][b].setImageResource(R.drawable.unclicked);
                 tr.addView(gameButtons[a][b]);
-                if(data[a][b] == 9)
-                {
-                    gameButtons[a][b].setImageResource(R.drawable.mine);
-                }
                 /*
                     11: user clicked but empty
                     10: empty
@@ -95,52 +114,11 @@ public class GameScreen extends AppCompatActivity {
                         if(!ClickState)
                         {
                             System.out.println("R: " + posR + ", C: " + posC + " was clicked. " + "Data: " + data[posR][posC]);
-                            if(!clicked && data[posR][posC] == 9)
+                            if(!clicked)
                             {
-                                boolean found = false;
-                                while(!found)
-                                {
-                                    int tempR = (int)(Math.random() * width);
-                                    int tempC = (int)(Math.random() * height);
-                                    if(data[tempR][tempC] == 10)
-                                    {
-                                        data[tempR][tempC] = 9;
-                                        found = true;
-                                    }
-                                }
-                                data[posR][posC] = 11;
+                                generatePuzzle(posR, posC);
+                                floodFillHelper(posR, posC);
                                 clicked = true;
-                                drawMines();
-                                refactorEmpty();
-                                switch(mineCount[posR][posC])
-                                {
-                                    case 0:
-                                        break;
-                                    case 1:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.one);
-                                        break;
-                                    case 2:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.two);
-                                        break;
-                                    case 3:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.three);
-                                        break;
-                                    case 4:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.four);
-                                        break;
-                                    case 5:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.five);
-                                        break;
-                                    case 6:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.six);
-                                        break;
-                                    case 7:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.seven);
-                                        break;
-                                    case 8:
-                                        gameButtons[posR][posC].setImageResource(R.drawable.eight);
-                                        break;
-                                }
                             }
                             else if(data[posR][posC] == 9)
                             {
@@ -148,7 +126,6 @@ public class GameScreen extends AppCompatActivity {
                             }
                             else
                             {
-                                clicked = true;
                                 switch(mineCount[posR][posC])
                                 {
                                     case 0:
@@ -235,6 +212,7 @@ public class GameScreen extends AppCompatActivity {
 
     public void GameOver()
     {
+        TimerText.stop();
         System.out.println("Game Over!!!!");
         for(int a = 0; a < width; a++)
         {
@@ -252,6 +230,7 @@ public class GameScreen extends AppCompatActivity {
 
     public void youWin()
     {
+        TimerText.stop();
         System.out.println("You won!!!!");
         for(int a = 0; a < width; a++)
         {
@@ -292,8 +271,13 @@ public class GameScreen extends AppCompatActivity {
         System.out.println("what" + done);
         return done;
     }
+
     public void NewGame()
     {
+        elapsedTime = SystemClock.elapsedRealtime();
+        TimerText.start();
+        clicked = false;
+        TimerText.setBase(SystemClock.elapsedRealtime());
         data = new int[width][height];
         mineCount = new int[width][height];
         for(int a = 0; a < width; a++)
@@ -301,30 +285,31 @@ public class GameScreen extends AppCompatActivity {
             for(int b = 0; b < height; b++)
             {
                 data[a][b] = 10;
-                mineCount[a][b] = -1;
+                mineCount[a][b] = 0;
+                if(gameButtons != null)
+                {
+                    gameButtons[a][b].setBackgroundColor(Color.WHITE);
+                    gameButtons[a][b].setClickable(true);
+                    gameButtons[a][b].setImageResource(R.drawable.unclicked);
+                }
             }
         }
+        drawMines();
+    }
+
+    public void generatePuzzle(int r, int c)
+    {
         int tempNumberOfFlags = numberOfFlags;
         while(tempNumberOfFlags > 0)
         {
             int tempR = (int)(Math.random() * width);
             int tempC = (int)(Math.random() * height);
-            if(data[tempR][tempC] == 10) {
+            if(data[tempR][tempC] == 10 && (tempR > r + 1 || tempR < r - 1) && (tempC > c + 1 || tempC < c - 1)) {
                 data[tempR][tempC] = 9;
                 tempNumberOfFlags--;
-                System.out.println("Mines left to place: " + tempNumberOfFlags);
-                for (int a = 0; a < width; a++)
-                {
-                    for(int b = 0; b < height; b++)
-                    {
-                        System.out.print("[" + data[a][b] + "]");
-                    }
-                    System.out.println();
-                }
             }
         }
         refactorEmpty();
-        drawMines();
     }
     public void drawMines()
     {
@@ -335,7 +320,7 @@ public class GameScreen extends AppCompatActivity {
                 {
                     if(data[a][b] == 9)
                     {
-                        gameButtons[a][b].setImageResource(R.drawable.mine);
+                        //gameButtons[a][b].setImageResource(R.drawable.mine);
                     }
                     else{
                         gameButtons[a][b].setImageResource(R.drawable.unclicked);
@@ -401,46 +386,62 @@ public class GameScreen extends AppCompatActivity {
 
     public void floodFillHelper(int r, int c)
     {
-        System.out.println("Flood filling at: " + r + ", " + c);
+        System.out.println("Flood filling at: " + r + ", " + c + ", Data is: " + data[r][c]);
         if(data[r][c] != 10)
         {
             return;
         }
-        else
+        else if(mineCount[r][c] == 0)
         {
+            data[r][c] = 11;
             gameButtons[r][c].setImageResource(R.drawable.empty);
             if(r > 0)
             {
-                if(data[r-1][c] == 10)
-                {
-                    data[r-1][c] = 11;
-                    floodFillHelper(r-1, c);
-                }
+                floodFillHelper(r-1, c);
             }
             if(r < width - 1)
             {
-                if(data[r+1][c] == 10)
-                {
-                    data[r+1][c] = 11;
-                    floodFillHelper(r+1, c);
-                }
+                floodFillHelper(r+1, c);
             }
             if(c > 0)
             {
-                if(data[r][c-1] == 10)
-                {
-                    data[r][c-1] = 11;
-                    floodFillHelper(r, c-1);
-                }
+                floodFillHelper(r, c-1);
             }
             if(c < height - 1)
             {
-                if(data[r][c+1] == 10)
-                {
-                    data[r][c+1] = 11;
-                    floodFillHelper(r, c+1);
-                }
+                floodFillHelper(r, c+1);
             }
+        }
+        else
+        {
+            switch(mineCount[r][c])
+            {
+                case 1:
+                    gameButtons[r][c].setImageResource(R.drawable.one);
+                    break;
+                case 2:
+                    gameButtons[r][c].setImageResource(R.drawable.two);
+                    break;
+                case 3:
+                    gameButtons[r][c].setImageResource(R.drawable.three);
+                    break;
+                case 4:
+                    gameButtons[r][c].setImageResource(R.drawable.four);
+                    break;
+                case 5:
+                    gameButtons[r][c].setImageResource(R.drawable.five);
+                    break;
+                case 6:
+                    gameButtons[r][c].setImageResource(R.drawable.six);
+                    break;
+                case 7:
+                    gameButtons[r][c].setImageResource(R.drawable.seven);
+                    break;
+                case 8:
+                    gameButtons[r][c].setImageResource(R.drawable.eight);
+                    break;
+            }
+            gameButtons[r][c].setClickable(false);
         }
     }
 }
