@@ -3,6 +3,7 @@ package com.wukevin.minesweeper;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.icu.text.IDNA;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.health.SystemHealthManager;
@@ -21,6 +22,7 @@ public class GameScreen extends AppCompatActivity {
     TableLayout GameTable;
     Chronometer TimerText;
     TextView FlagText;
+    TextView InfoText;
     Button ResetButton;
     Button ClickStateButton;
 
@@ -43,6 +45,7 @@ public class GameScreen extends AppCompatActivity {
         GameTable = findViewById(R.id.game_table);
         TimerText = findViewById(R.id.TimerText);
         FlagText = findViewById(R.id.FlagText);
+        InfoText = findViewById(R.id.info_text);
         ResetButton = findViewById(R.id.ResetButton);
         ClickStateButton = findViewById(R.id.change_state_button);
 
@@ -157,24 +160,41 @@ public class GameScreen extends AppCompatActivity {
                                         break;
                                 }
                                 gameButtons[posR][posC].setClickable(false);
+                                data[posR][posC] = mineCount[posR][posC];
                             }
                         }
                         else
                         {
-                            if(data[posR][posC] == 0)
+                            if(flagsLeft > 0)
                             {
-                                data[posR][posC] = 10;
-                                gameButtons[posR][posC].setImageResource(R.drawable.unclicked);
-                                flagsLeft++;
-                                String flagtexttext = "Flags Left: " + flagsLeft;
-                                FlagText.setText(flagtexttext);
+                                if(data[posR][posC] == 0)
+                                {
+                                    data[posR][posC] = 10;
+                                    gameButtons[posR][posC].setImageResource(R.drawable.unclicked);
+                                    flagsLeft++;
+                                    String flagtexttext = "Flags Left: " + flagsLeft;
+                                    FlagText.setText(flagtexttext);
+                                }
+                                else if(!(1 <= data[posR][posC] && 8 >= data[posR][posC])){
+                                    data[posR][posC] = 0;
+                                    gameButtons[posR][posC].setImageResource(R.drawable.flag);
+                                    flagsLeft--;
+                                    String flagtexttext = "Flags Left: " + flagsLeft;
+                                    FlagText.setText(flagtexttext);
+                                }
+                                InfoText.setText(" ");
                             }
-                            else if(!(1 <= data[posR][posC] && 8 >= data[posR][posC])){
-                                data[posR][posC] = 0;
-                                gameButtons[posR][posC].setImageResource(R.drawable.flag);
-                                flagsLeft--;
-                                String flagtexttext = "Flags Left: " + flagsLeft;
-                                FlagText.setText(flagtexttext);
+                            else
+                            {
+                                InfoText.setText("You're out of flags :(");
+                                if(data[posR][posC] == 0)
+                                {
+                                    data[posR][posC] = 10;
+                                    gameButtons[posR][posC].setImageResource(R.drawable.unclicked);
+                                    flagsLeft++;
+                                    String flagtexttext = "Flags Left: " + flagsLeft;
+                                    FlagText.setText(flagtexttext);
+                                }
                             }
                         }
                         if(checkForWin())
@@ -214,6 +234,7 @@ public class GameScreen extends AppCompatActivity {
     {
         TimerText.stop();
         System.out.println("Game Over!!!!");
+        InfoText.setText("You Lose!!");
         for(int a = 0; a < width; a++)
         {
             for(int b = 0; b < height; b++)
@@ -232,6 +253,7 @@ public class GameScreen extends AppCompatActivity {
     {
         TimerText.stop();
         System.out.println("You won!!!!");
+        InfoText.setText("You win!!!!");
         for(int a = 0; a < width; a++)
         {
             for(int b = 0; b < height; b++)
@@ -258,6 +280,10 @@ public class GameScreen extends AppCompatActivity {
             {
                 done = false;
             }
+            else
+            {
+                done = true;
+            }
             if(r == width-1)
             {
                 c++;
@@ -268,6 +294,13 @@ public class GameScreen extends AppCompatActivity {
                 r++;
             }
         }
+        /*for(int a = 0; a < width; a++)
+        {
+            for(int b = 0; b < height; b++)
+            {
+                gameButtons[a][b].setBackgroundColor(Color.WHITE);
+            }
+        }*/
         System.out.println("what" + done);
         return done;
     }
@@ -276,10 +309,13 @@ public class GameScreen extends AppCompatActivity {
     {
         elapsedTime = SystemClock.elapsedRealtime();
         TimerText.start();
+        InfoText.setText(" ");
         clicked = false;
         TimerText.setBase(SystemClock.elapsedRealtime());
         data = new int[width][height];
         mineCount = new int[width][height];
+        flagsLeft = 10;
+        FlagText.setText("Flags Left: " + flagsLeft);
         for(int a = 0; a < width; a++)
         {
             for(int b = 0; b < height; b++)
@@ -320,7 +356,7 @@ public class GameScreen extends AppCompatActivity {
                 {
                     if(data[a][b] == 9)
                     {
-                        //gameButtons[a][b].setImageResource(R.drawable.mine);
+                        gameButtons[a][b].setImageResource(R.drawable.mine);
                     }
                     else{
                         gameButtons[a][b].setImageResource(R.drawable.unclicked);
@@ -442,6 +478,7 @@ public class GameScreen extends AppCompatActivity {
                     break;
             }
             gameButtons[r][c].setClickable(false);
+            data[r][c] = mineCount[r][c];
         }
     }
 }
